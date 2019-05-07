@@ -1,0 +1,4 @@
+name: RPG
+version: @version@
+main: yuu.rpg.RPG
+api-version: 1.13
