@@ -7,6 +7,12 @@ version = pluginVersion
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+
 repositories {
     mavenCentral()
     maven {
@@ -23,6 +29,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'org.spigotmc:spigot-api:1.14-R0.1-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    embed "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -50,4 +57,12 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/java'
+}
+
+jar {
+    from { configurations.embed.collect { it.isDirectory() ? it : zipTree(it) } }
 }
