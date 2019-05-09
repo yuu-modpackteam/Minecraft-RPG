@@ -36,7 +36,7 @@ class Test internal constructor(private val plugin: RPG) : Listener {
         try {
             Class.forName("org.sqlite.JDBC")
             conn = DriverManager.getConnection("jdbc:sqlite:$dbname")
-            conn.setAutoCommit(false)  //オートコミットはオフ
+            //   conn.setAutoCommit(false)  //オートコミットはオフ
 
             stmt = conn!!.createStatement()
             stmt!!.executeUpdate("CREATE TABLE User_Data (uuid VARCHAR(40))")
@@ -52,7 +52,7 @@ class Test internal constructor(private val plugin: RPG) : Listener {
             println("結果：$i")
 
             //コミット
-            conn.commit()
+            //conn.commit()
 
 
 
