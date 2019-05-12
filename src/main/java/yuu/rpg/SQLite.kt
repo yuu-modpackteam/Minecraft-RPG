@@ -18,20 +18,21 @@ object SQLite {
         var stmt: Statement? = null
         try {
             Class.forName("org.sqlite.JDBC")
-            conn = DriverManager.getConnection("jdbc:sqlite:$dbname")
+            // ここでNotNullが保証されるため以下の!!は冗長
+            conn = DriverManager.getConnection("jdbc:sqlite:$dbname")!!
             println("接続成功")
 
-            stmt = conn!!.createStatement()
+            stmt = conn.createStatement()!!
       //      stmt!!.executeUpdate("CREATE TABLE products (pid INTEGER, name VARCHAR(20), price INTEGER, PRIMARY KEY (pid))")
-            stmt!!.executeUpdate("CREATE TABLE products (uuid VARCHAR(40))")
+            stmt.executeUpdate("CREATE TABLE products (uuid VARCHAR(40))")
             println("テーブル作成")
 
-            stmt!!.executeUpdate("INSERT INTO products VALUES(1, 'AAA', 100)")
-            stmt!!.executeUpdate("INSERT INTO products VALUES(2, 'BBB', 80)")
-            stmt!!.executeUpdate("INSERT INTO products VALUES(3, 'CCC', 220)")
+            stmt.executeUpdate("INSERT INTO products VALUES(1, 'AAA', 100)")
+            stmt.executeUpdate("INSERT INTO products VALUES(2, 'BBB', 80)")
+            stmt.executeUpdate("INSERT INTO products VALUES(3, 'CCC', 220)")
             println("データ挿入")
 
-            val rs = stmt!!.executeQuery("SELECT * FROM products WHERE price >= 100")
+            val rs = stmt.executeQuery("SELECT * FROM products WHERE price >= 100")
             println("選択")
             while (rs.next()) {
                 val pid = rs.getInt("pid")
@@ -39,20 +40,20 @@ object SQLite {
                 val price = rs.getInt("price")
                 println(pid.toString() + "\t" + name + "\t" + price)
                 //println(pid + "\t" + name + "\t" + price)
-        }
+            }
             rs.close()
 
-            stmt!!.executeUpdate("DROP TABLE products")
+            stmt.executeUpdate("DROP TABLE products")
             println("テーブル削除")
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             try {
                 if (stmt != null) {
-                    stmt!!.close()
+                    stmt.close()
                 }
                 if (conn != null) {
-                    conn!!.close()
+                    conn.close()
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -107,13 +108,13 @@ object SQLite {
         try {
 
             // ステートメントの作成
-            stmt = conn.createStatement()
+            stmt = conn.createStatement()!!
 
             // SQLの実行
-            rs = stmt!!.executeQuery("SELECT * FROM TBL")
+            rs = stmt.executeQuery("SELECT * FROM TBL")!!
 
             // 結果の表示
-            while (rs!!.next()) {
+            while (rs.next()) {
 
                 // 初回のみ項目名を取得
                 if (clmnAry == null) {
